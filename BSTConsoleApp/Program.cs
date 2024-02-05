@@ -13,9 +13,9 @@ internal class Program
             Console.Clear();
 
             Console.WriteLine("Create A BST:");
-            Console.WriteLine("1. Insert a Node Value");
-            Console.WriteLine("2. Remove a Node Value");
-            Console.WriteLine("3. Generate a Tree");
+            Console.WriteLine("1. Manually Insert Nodes");
+            Console.WriteLine("2. Remove Node(s)");
+            Console.WriteLine("3. Display Manual Tree");
             Console.WriteLine("4. Exit");
             Console.Write("\nChoose 1, 2, 3, or 4: ");
 
@@ -25,33 +25,52 @@ internal class Program
                 switch (choice)
                 {
                     case 1:
-                        Console.Write("Enter a value to insert: ");
-                        if (int.TryParse(Console.ReadLine(), out int valueToInsert))
+                        bool continueInserting = true;
+                        while (continueInserting)
                         {
-                            bst.Insert(valueToInsert);
-                            TrackInsertedValues(valueToInsert);
+                            Console.Write("\nEnter a value to insert: ");
+                            if (int.TryParse(Console.ReadLine(), out int valueToInsert))
+                            {
+                                bst.Insert(valueToInsert);
+                                TrackInsertedValues(valueToInsert);
 
-                            Console.WriteLine("\nCurrent Tree Values:");
-                            ListTreeValues();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid integer.");
+                                Console.WriteLine("\nCurrent Tree Values:");
+                                ListTreeValues();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please enter a valid integer.");
+                            }
+
+                            Console.Write("\nInsert another? (Y/N): ");
+                            var response = Console.ReadLine();
+                            continueInserting = response.Equals("Y", StringComparison.OrdinalIgnoreCase) || response.Equals("Yes", StringComparison.OrdinalIgnoreCase);
                         }
                         break;
                     case 2:
-                        Console.Write("Enter a value to Remove: ");
-                        if (int.TryParse(Console.ReadLine(), out int valueToRemove))
+                        bool continueRemoving = true;
+                        while (continueRemoving)
                         {
-                            bst.Remove(valueToRemove);
-                            TrackRemovedValues(valueToRemove);
-
-                            Console.WriteLine("\nCurrent Tree Values:");
+                            Console.WriteLine("Current Tree Values:");
                             ListTreeValues();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid integer.");
+
+                            Console.Write("\nEnter a value to remove: ");
+                            if (int.TryParse(Console.ReadLine(), out int valueToRemove))
+                            {
+                                bst.Remove(valueToRemove);
+                                TrackRemovedValues(valueToRemove);
+
+                                Console.WriteLine("\nCurrent Tree Values:");
+                                ListTreeValues();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please enter a valid integer.");
+                            }
+
+                            Console.Write("\nRemove another? (Y/N): ");
+                            var response = Console.ReadLine();
+                            continueRemoving = response.Equals("Y", StringComparison.OrdinalIgnoreCase) || response.Equals("Yes", StringComparison.OrdinalIgnoreCase);
                         }
                         break;
                     case 3:
