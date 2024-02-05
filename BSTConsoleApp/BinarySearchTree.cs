@@ -14,7 +14,6 @@
             if (!Contains(root, data))
             {
                 root = InsertRec(root, data);
-                Console.WriteLine($"\nValue {data} has been inserted into the tree.");
             }
             else
             {

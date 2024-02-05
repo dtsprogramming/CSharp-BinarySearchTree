@@ -16,8 +16,9 @@ internal class Program
             Console.WriteLine("1. Manually Insert Nodes");
             Console.WriteLine("2. Remove Node(s)");
             Console.WriteLine("3. Display Manual Tree");
-            Console.WriteLine("4. Exit");
-            Console.Write("\nChoose 1, 2, 3, or 4: ");
+            Console.WriteLine("4. Generate a Random Tree");
+            Console.WriteLine("5. Exit");
+            Console.Write("\nChoose 1, 2, 3, 4 or 5: ");
 
             int choice;
             if (int.TryParse(Console.ReadLine(), out choice))
@@ -33,6 +34,8 @@ internal class Program
                             {
                                 bst.Insert(valueToInsert);
                                 TrackInsertedValues(valueToInsert);
+
+                                Console.WriteLine($"\nValue {valueToInsert} has been inserted into the tree.");
 
                                 Console.WriteLine("\nCurrent Tree Values:");
                                 ListTreeValues();
@@ -84,6 +87,56 @@ internal class Program
                         bst.PrintTree();
                         break;
                     case 4:
+                        Console.Write("\nEnter the number of nodes to generate: ");
+                        if (int.TryParse(Console.ReadLine(), out int nodeCount))
+                        {
+                            bool printExcessive = false;
+                            var rand = new Random();
+                            var existingValues = new HashSet<int>();
+                            // Adjust the range to be from 1 to 2 times the nodeCount
+                            int rangeMax = nodeCount * 2; // Ensuring the range is twice the node count
+                            while (existingValues.Count < nodeCount)
+                            {
+                                int newValue = rand.Next(1, rangeMax + 1); // Adjust the range here
+                                if (existingValues.Add(newValue)) // Ensures only unique values are added
+                                {
+                                    bst.Insert(newValue);
+                                    TrackInsertedValues(newValue); // Assuming you want to track these as well
+                                }
+                            }
+
+                            Console.WriteLine("\nRandom Tree Generated with Unique Values:");
+                            if (nodeCount <= 50)
+                            {
+                                Console.WriteLine("\nNode Values in the order that they were inserted:");
+                                ListTreeValues();
+
+                                Console.WriteLine("\nIn-Order Traversal of the BST:");
+                                bst.InOrderTraversal();
+
+                                bst.PrintTree();
+                            }
+                            else
+                            {
+                                Console.WriteLine($"\n**Excessive Node Count({nodeCount}) Detected**");
+                                Console.WriteLine("\nWould you like to print the values anyway? (May impact PC performance).");
+                                Console.Write("\nMy PC is a BEAST (Y) / Never Mind (N): ");
+                                var response = Console.ReadLine();
+                                printExcessive = response.Equals("Y", StringComparison.OrdinalIgnoreCase) || response.Equals("Yes", StringComparison.OrdinalIgnoreCase);
+
+                                if (printExcessive)
+                                {
+                                    Console.WriteLine("\nNode Values in the order that they were inserted:");
+                                    ListTreeValues();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid integer.");
+                        }
+                        break;
+                    case 5:
                         Console.WriteLine("\nExiting the Program.");
                         return;
                     default:
